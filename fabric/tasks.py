@@ -45,6 +45,10 @@ class WrappedCallableTask(Task):
         self.wrapped = callable
         self.__name__ = self.name = callable.__name__
         self.__doc__ = callable.__doc__
+        # note this is not perfect, and might break subclasses.  allows doctests to work righter.
+        # alternative at:  https://gist.github.com/1166458#file_subclass_moddocstring.py
+        # self.__call__ = property(lambda s: Task.__call__, doc=callable.__doc__)
+        self.__call__.im_func.__doc__ = callable.__doc__ # self.__call__.__func__.__doc__ # py3
 
     def __call__(self, *args, **kwargs):
         return self.run(*args, **kwargs)

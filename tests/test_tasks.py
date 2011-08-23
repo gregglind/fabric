@@ -69,6 +69,7 @@ class TestWrappedCallableTask(unittest.TestCase):
 
         task = tasks.WrappedCallableTask(foo)
         self.assertEqual(task.__doc__, foo.__doc__)
+        self.assertEqual(task.__call__.__doc__, foo.__doc__)
 
     def test_dispatches_to_wrapped_callable_on_run(self):
         random_value = "some random value %d" % random.randint(1000, 2000)

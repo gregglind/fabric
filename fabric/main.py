@@ -251,12 +251,17 @@ def is_task_object(a):
     return isinstance(a, Task) and a.use_task_objects
 
 
-def parse_options():
+def parse_options(argv=None):
     """
     Handle command-line options with optparse.OptionParser.
 
-    Return list of arguments, largely for use in `parse_arguments`.
+    Args:
+        ``argv``:  iterable.  ``sys.argv`` if None.
+  
+    Returns:
+         (parser, opts, args) for use in `parse_arguments`.
     """
+    if argv is None:  argv = sys.argv
     #
     # Initialize
     #
@@ -628,13 +633,16 @@ def _run_task(task, args, kwargs):
     return task(*args, **kwargs)
 
 
-def main():
+def main(argv=None):
     """
     Main command-line execution loop.
+
+    Args:
+        ``argv``: iterable.  if None, ``sys.argv``.
     """
     try:
         # Parse command line options
-        parser, options, arguments = parse_options()
+        parser, options, arguments = parse_options(argv)
 
         # Handle regular args vs -- args
         arguments = parser.largs
